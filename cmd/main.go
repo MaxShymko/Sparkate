@@ -2,42 +2,28 @@ package main
 
 import (
 	"log"
-	"os"
-	"time"
 
-	h "github.com/ilya-shymko/Sparkate/handlers"
-	kb "github.com/ilya-shymko/Sparkate/keybords"
-
-	"github.com/joho/godotenv"
-	tele "gopkg.in/telebot.v4"
+	cfg "github.com/ilya-shymko/Sparkate/internal/config"
+	hand "github.com/ilya-shymko/Sparkate/internal/handlers"
+	kb "github.com/ilya-shymko/Sparkate/internal/keybords"
+	ph "github.com/ilya-shymko/Sparkate/internal/photos"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Printf("⚠️  .env файл не найден: %v", err)
-		log.Println("ℹ️  Использую переменные окружения системы")
-	}
+	log.Println("Init Config...")
+	cfg.InitConfig()
 
-	token := os.Getenv("BOT_TOKEN")
-	if token == "" {
-		log.Fatal("❌ BOT_TOKEN не установлен. Создайте файл .env или установите переменную окружения")
-	}
+	log.Println("Init Bot...")
+	b := initBot()
 
-	pref := tele.Settings{
-		Token:  token,
-		Poller: &tele.LongPoller{Timeout: 10 * time.Second},
-	}
+	log.Println("Init Keybords...")
+	kb.InitKeybords()
 
-	b, err := tele.NewBot(pref)
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
+	log.Println("Registr Handlers...")
+	hand.RegistrHandlers(b)
 
-	kb.Init()
-
-	h.RegistrHandlers(b)
+	log.Println("Init Photos...")
+	ph.InitPhotos()
 
 	log.Println("Bot has started...")
 	b.Start()

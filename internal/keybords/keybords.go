@@ -12,7 +12,7 @@ var (
 	StartBlindGameBtn tele.Btn
 )
 
-func Init() {
+func InitKeybords() {
 	// 1
 	MainMenu = &tele.ReplyMarkup{}
 
