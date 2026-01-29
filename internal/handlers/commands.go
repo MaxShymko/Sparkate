@@ -7,10 +7,24 @@ import (
 )
 
 func ShowMainMenu(c tele.Context) error {
-	return sendOrEditPhoto(c, "Main menu: ", kb.MainMenu)
+	// Создаем фото с текущей подписью
+	photo := &tele.Photo{
+		File:    ph.MainPhoto.File,
+		Caption: "Main menu: ",
+	}
+
+	// Параметры отправки
+	options := &tele.SendOptions{
+		ParseMode:   tele.ModeMarkdown,
+		ReplyMarkup: kb.MainMenu,
+	}
+
+	// Отправляем
+	return c.Send(photo, options)
 }
 
-func sendOrEditPhoto(c tele.Context, caption string, menu *tele.ReplyMarkup) error {
+func mainHandler(c tele.Context, caption string, menu *tele.ReplyMarkup) error {
+	c.Respond()
 	// Создаем фото с текущей подписью
 	photo := &tele.Photo{
 		File:    ph.MainPhoto.File,
@@ -24,5 +38,5 @@ func sendOrEditPhoto(c tele.Context, caption string, menu *tele.ReplyMarkup) err
 	}
 
 	// Отправляем
-	return c.Send(photo, options)
+	return c.Edit(photo, options)
 }

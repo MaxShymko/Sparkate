@@ -6,7 +6,12 @@ import (
 )
 
 func RegistrHandlers(b *tele.Bot) {
-	b.Handle(tele.OnText, ShowMainMenu)
+	b.Handle("/start", ShowMainMenu)
 
+	// Main menu
 	b.Handle(&kb.ChooseGameBtn, ShowLlistOfGames)
+	b.Handle(&kb.RulesOfBGBtn, ShowRulesOfBG)
+	b.Handle(&kb.StartBGBtn, AddUserInQueue)
+
+	b.Handle(&kb.BGBtn1, HandleBGBtn1)
 }
