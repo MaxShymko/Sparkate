@@ -13,5 +13,5 @@ func RegistrHandlers(b *tele.Bot) {
 	b.Handle(&kb.RulesOfBGBtn, ShowRulesOfBG)
 	b.Handle(&kb.StartBGBtn, AddUserInQueue)
 
-	b.Handle(&kb.BGBtn1, HandleBGBtn1)
+	// b.Handle(&kb.BGBtn1, HandleBGBtn1)
 }
