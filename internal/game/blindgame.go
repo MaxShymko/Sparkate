@@ -1,20 +1,24 @@
-package blindgame
+package game
 
 import (
-	"errors"
-
-	err "github.com/ilya-shymko/Sparkate/internal/errors"
+	"fmt"
 )
 
-func CalculateResults(player1, player2 int8) (ResultOfBGRound, error) {
-	result := ResultOfBGRound{}
+type ResultOfGameRound struct {
+	Player1Points int8
+	Player2Points int8
+}
+
+func CalculateResults(player1, player2 int8) (ResultOfGameRound, error) {
+	result := ResultOfGameRound{}
 	if player1 > 5 || player1 < 1 || player2 > 5 || player2 < 1 {
-		return result, err.ErrInvalidMove
+		return result, fmt.Errorf("Ход должен быть числом от 1 до 5")
 	}
 
 	// Если числа равны - ничья
 	if player1 == player2 {
-		result.IsDraw = true
+		result.Player1Points = 0
+		result.Player2Points = 0
 		return result, nil
 	}
 
@@ -57,5 +61,5 @@ func CalculateResults(player1, player2 int8) (ResultOfBGRound, error) {
 		return result, nil
 	}
 
-	return ResultOfBGRound{}, errors.New("неожиданная ошибка в логике игры")
+	return ResultOfGameRound{}, fmt.Errorf("неожиданная ошибка в логике игры")
 }
